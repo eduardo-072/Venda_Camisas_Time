@@ -1,0 +1,13 @@
+{
+  "builds": [
+    {
+      "src": "backend/core/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.12" }
+    }
+  ],
+  "routes": [
+    { "src": "/static/(.*)", "dest": "/static/$1" },
+    { "src": "/(.*)", "dest": "backend/core/wsgi.py" }
+  ]
+}
