@@ -1,0 +1,143 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block titulo %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=1">
+{% endblock %}
+
+{% block conteudo %}
+<div class="dash-header">
+    <div>
+        <span class="section-label">Painel Administrativo</span>
+        <h1>Dashboard</h1>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="dash-user">
+        <div class="dash-avatar">{{ user.username|slice:":2"|upper }}</div>
+        <div>
+            <p class="dash-username">{{ user.username }}</p>
+            <p class="dash-role">{% if user.is_superuser %}Administrador{% else %}Usuário{% endif %}</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="dash-stats">
+    <div class="stat-card stat-produtos">
+        <span class="stat-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                <path d="m3.3 7 8.7 5 8.7-5"/>
+                <path d="M12 22V12"/>
+            </svg>
+        </span>
+        <div>
+            <span class="stat-card-num">{{ total_produtos }}</span>
+            <span class="stat-card-label">Produtos</span>
+        </div>
+    </div>
+    <div class="stat-card stat-categorias">
+        <span class="stat-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+                <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+        </span>
+        <div>
+            <span class="stat-card-num">{{ total_categorias }}</span>
+            <span class="stat-card-label">Categorias</span>
+        </div>
+    </div>
+    <div class="stat-card stat-contatos">
+        <span class="stat-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+        </span>
+        <div>
+            <span class="stat-card-num">{{ total_contatos }}</span>
+            <span class="stat-card-label">Contatos</span>
+        </div>
+    </div>
+    <div class="stat-card stat-usuarios">
+        <span class="stat-card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </span>
+        <div>
+            <span class="stat-card-num">{{ total_usuarios }}</span>
+            <span class="stat-card-label">Usuários</span>
+        </div>
+    </div>
+</div>
+
+<h2 class="dash-section-title">Gerenciar</h2>
+
+<div class="dash-grid">
+    <a href="{% url 'produto' %}" class="dash-card">
+        <div class="dash-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                <path d="m3.3 7 8.7 5 8.7-5"/>
+                <path d="M12 22V12"/>
+            </svg>
+        </div>
+        <div class="dash-card-body">
+            <h3>Produtos</h3>
+            <p>Adicionar, editar e remover produtos do catálogo.</p>
+        </div>
+        <span class="dash-card-arrow">→</span>
+    </a>
+
+    <a href="{% url 'categoria' %}" class="dash-card">
+        <div class="dash-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+                <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+        </div>
+        <div class="dash-card-body">
+            <h3>Categorias</h3>
+            <p>Organizar e gerenciar as categorias de produtos.</p>
+        </div>
+        <span class="dash-card-arrow">→</span>
+    </a>
+
+    <a href="{% url 'contato' %}" class="dash-card">
+        <div class="dash-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+        </div>
+        <div class="dash-card-body">
+            <h3>Contatos</h3>
+            <p>Visualizar mensagens e contatos recebidos.</p>
+        </div>
+        <span class="dash-card-arrow">→</span>
+    </a>
+
+    <a href="{% url 'usuarios' %}" class="dash-card">
+        <div class="dash-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </div>
+        <div class="dash-card-body">
+            <h3>Usuários</h3>
+            <p>Ver todos os usuários cadastrados na plataforma.</p>
+        </div>
+        <span class="dash-card-arrow">→</span>
+    </a>
+</div>
+{% endblock %}

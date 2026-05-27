@@ -1,0 +1,34 @@
+{% extends 'template.html' %}
+
+{% block titulo %}Login{% endblock %}
+
+{% block conteudo %}
+
+<h1>Entrar</h1>
+
+<br>
+
+{% if erro %}
+    <p style="color: var(--accent-red); display:inline; background:none; border:none; padding:0;">
+        {{ erro }}
+    </p>
+    <br><br>
+{% endif %}
+
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    <label for="username">Nome</label>
+    <input type="text" name="username" id="username" placeholder="Seu usuário" required>
+
+    <label for="password">Senha</label>
+    <input type="password" name="password" id="password" placeholder="Sua senha" required>
+
+    <input type="submit" value="Entrar">
+</form>
+
+<br>
+<p style="display:inline; background:none; border:none; padding:0;">
+    Não tem conta? <a href="{% url 'cadastro' %}">Cadastrar</a>
+</p>
+
+{% endblock %}

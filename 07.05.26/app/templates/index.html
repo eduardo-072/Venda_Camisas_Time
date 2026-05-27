@@ -1,0 +1,175 @@
+{% extends 'template.html' %}
+
+{% block titulo %}Home | Loja de Camisas{% endblock %}
+
+{% block conteudo %}
+
+
+Pergunte à Meta AI...
+
+<style>
+/* ===== HERO ===== */
+.hf-hero {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  margin-top: -40px;
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 20px;
+  min-height: 70vh;
+  background: #000;
+  overflow: hidden;
+}
+.hf-hero::before {
+  content:""; position:absolute; inset:0;
+  background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=2000') center/cover no-repeat;
+  opacity: .45; z-index:0;
+}
+.hf-hero::after {
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg,rgba(0,0,0,.8) 0%,rgba(0,0,0,.5) 50%,#000 100%);
+  z-index:1;
+}
+.hf-hero > * { position:relative; z-index:2; max-width:900px; }
+
+.hf-badge { display:inline-block; padding:6px 14px; margin-bottom:20px; background:rgba(0,0,0,.6); border:1px solid #30d158; border-radius:999px; color:#30d158; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+.hf-hero h1 { font-size:clamp(34px,6vw,56px); font-weight:800; color:#fff; margin:0 0 16px; text-shadow:0 4px 20px rgba(0,0,0,.7); }
+.hf-hero p { font-size:18px; color:#e5e5e7; margin:0 auto 32px; max-width:600px; }
+.hf-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.hf-btn-primary { background:#30d158; color:#000 !important; font-weight:700; padding:14px 28px; border-radius:12px; text-decoration:none; transition:.2s; box-shadow:0 6px 20px rgba(48,209,88,.3); }
+.hf-btn-primary:hover { transform:translateY(-2px); }
+.hf-btn-ghost { padding:14px 28px; border-radius:12px; border:1.5px solid rgba(255,255,255,.3); color:#fff !important; text-decoration:none; font-weight:600; background:rgba(0,0,0,.3); }
+
+/* ===== DESTAQUES - ESTAVA FALTANDO ===== */
+.hf-destaques { max-width:1100px; margin:0 auto; padding:0 20px 60px; }
+.hf-section-head { text-align:center; margin-bottom:40px; }
+.hf-section-head .section-label { color:#30d158; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; }
+.hf-section-head h2 { font-size:32px; margin-top:8px; color:#f5f5f7; }
+.hf-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+.hf-card { background:#1c1c1e; border:1px solid rgba(255,255,255,.08); border-radius:16px; overflow:hidden; text-decoration:none; color:inherit; transition:.25s; display:flex; flex-direction:column; }
+.hf-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,.15); }
+.hf-card-img img { width:100%; height:200px; object-fit:cover; display:block; }
+.hf-card-body { padding:16px; }
+.hf-time { font-size:12px; color:#30d158; font-weight:600; }
+.hf-card-body h3 { font-size:16px; margin:4px 0 8px; color:#fff; }
+.hf-price { font-weight:700; color:#f5f5f7; }
+
+/* ===== BENEFÍCIOS - ESTAVA FALTANDO ===== */
+.hf-beneficios { max-width:1100px; margin:40px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.hf-benefit { display:flex; gap:12px; align-items:center; background:#1c1c1e; border:1px solid rgba(255,255,255,.06); padding:18px; border-radius:14px; }
+.hf-benefit i { font-size:24px; }
+.hf-benefit strong { display:block; color:#fff; font-size:14px; }
+.hf-benefit span { font-size:13px; color:#a1a1a6; }
+
+.hf-aviso { text-align:center; padding:60px 20px 20px; color:#6e6e73; font-style:italic; border-top:1px solid rgba(255,255,255,.06); margin-top:40px; }
+
+@media(max-width:640px){ .hf-hero{min-height:60vh;padding:80px 16px;} }
+</style>
+
+<!-- HERO FUTEBOL -->
+<section class="hf-hero">
+  <div class="hf-badge">⚽ Nova coleção 25/26</div>
+  <h1>Vista paixão e jogue com estilo </h1>
+  <div class="">
+    <a href="{% url 'loja' %}" class="hf-btn-primary">Ver Camisas</a>
+  </div>
+  <div class="hf-pitch"></div>
+</section>
+
+<!-- DESTAQUES -->
+<section class="hf-destaques">
+  <div class="hf-section-head">
+    <span class="section-label">Destaques da rodada</span>
+    <h2>Mais vendidas da semana</h2>
+  </div>
+
+  <div class="hf-grid">
+    <a href="{% url 'loja' %}" class="hf-card">
+      <div class="hf-card-img">
+        <img src="../../media/produtos/flamengo.jpeg" alt="Camisa Flamengo">
+      </div>
+      <div class="hf-card-body">
+        <span class="hf-time">Bayern de Munique</span>
+        <h3>Home 24/25 Oficial</h3>
+        <span class="hf-price">R$ 349,90</span>
+      </div>
+    </a>
+
+    <a href="{% url 'loja' %}" class="hf-card">
+      <div class="hf-card-img">
+        <img src="../../media/produtos/melhorDoMundo.webp" alt="Camisa Corinthians">
+      </div>
+      <div class="hf-card-body">
+        <span class="hf-time">Corinthians</span>
+        <h3>Retrô 2012</h3>
+        <span class="hf-price">R$ 299,90</span>
+      </div>
+    </a>
+
+    <a href="{% url 'loja' %}" class="hf-card">
+      <div class="hf-card-img">
+        <img src="../../media/produtos/imagem2.png" alt="Camisa Brasil">
+      </div>
+      <div class="hf-card-body">
+        <span class="hf-time">Brasil</span>
+        <h3>Amarelinha Torcedor</h3>
+        <span class="hf-price">R$ 279,90</span>
+      </div>
+    </a>
+
+    <a href="{% url 'loja' %}" class="hf-card">
+      <div class="hf-card-img">
+        <img src="../../media/produtos/coringao.webp" alt="Camisa Corinthians">
+      </div>
+      <div class="hf-card-body">
+        <span class="hf-time">Corinthians</span>
+        <h3>All Black</h3>
+        <span class="hf-price">R$ 279,90</span>
+      </div>
+    </a>
+
+    <a href="{% url 'loja' %}" class="hf-card">
+      <div class="hf-card-img">
+        <img src="../../media/produtos/realMadrid.webp" alt="Camisa Real Madrid">
+      </div>
+      <div class="hf-card-body">
+        <span class="hf-time">Real Madrid</span>
+        <h3>Home 24/25</h3>
+        <span class="hf-price">R$ 650,00</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS ESTILO ESTÁDIO -->
+<div class="hf-beneficios">
+  <div class="hf-benefit">
+    <i>🏟️</i>
+    <div><strong>Qualidade de Jogo</strong><span>Tecido dry-fit oficial</span></div>
+  </div>
+  <div class="hf-benefit">
+    <i>🚚</i>
+    <div><strong>Envio Rápido</strong><span>Despacho em 24h</span></div>
+  </div>
+  <div class="hf-benefit">
+    <i>🔄</i>
+    <div><strong>Troca Fácil</strong><span>7 dias para torcer tranquilo</span></div>
+  </div>
+  <div class="hf-benefit">
+    <i>💳</i>
+    <div><strong>12x sem juros</strong><span>No cartão de crédito</span></div>
+  </div>
+</div>
+
+<!-- PIADA FINAL -->
+<div class="hf-aviso">
+  Proibido camisa verde neste site.
+</div>
+
+{% endblock %}

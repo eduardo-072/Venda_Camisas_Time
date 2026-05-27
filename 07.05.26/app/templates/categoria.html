@@ -1,0 +1,22 @@
+{% extends 'template.html' %}
+
+{% block titulo %}Django Categorias{% endblock %}
+
+ {% block conteudo %}
+
+    <h1>Categorias</h1>
+
+    <br><hr>
+    <a href="{% url 'addcategoria' %}">Adicionar Categoria</a><br><br>
+
+    {% for cat in categorias %}
+        <p>
+            ID: {{cat.id}} - Nome: {{cat.nome}} |
+            <a href="{% url 'delcategoria' cat.id %}">Excluir</a> |
+            <a href="{% url 'editcategoria' cat.id %}">Editar</a> 
+        </p>
+    {% endfor %}
+
+ {% endblock %}
+
+

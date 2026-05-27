@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}
+    {% endblock %}
+    <title>{% block titulo %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'quemsomos' %}">Quem Somos</a>
+            <a href="{% url 'loja' %}">Produtos</a>
+            <a href="{% url 'addcontato' %}">Contato</a>
+
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <a href="{% url 'dashboard' %}">{{ user.username }}</a>
+                {% else %}
+                    <span class="user-name">{{ user.username }}</span>
+                {% endif %}
+                <a href="{% url 'alterarsenha' %}">Alterar Senha</a>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <p class="footer-tagline">Construído com Django &amp; Python</p>
+            </div>
+            <header>
+                <nav>
+                    <a href="{% url 'index' %}">Home</a>
+                    <a href="{% url 'quemsomos' %}">Quem Somos</a>
+                    <a href="{% url 'loja' %}">Produtos</a>
+                    <a href="{% url 'addcontato' %}">Contato</a>
+                </nav>
+            </header>
+            <p class="footer-copy">&copy; 2025 Django App. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ─── Modal de Confirmação de Exclusão ─── -->
+    <div class="modal-backdrop" id="deleteModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"/>
+                    <path d="M8 6V4h8v2"/>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                    <path d="M10 11v6"/>
+                    <path d="M14 11v6"/>
+                </svg>
+            </div>
+            <h2 class="modal-title" id="modalTitle">Confirmar exclusão</h2>
+            <p class="modal-message">Você tem certeza que deseja excluir</p>
+            <p class="modal-name" id="modalName"></p>
+            <p class="modal-warning">Essa ação não pode ser desfeita.</p>
+            <div class="modal-actions">
+                <button class="modal-btn-cancel" id="modalCancel">Cancelar</button>
+                <a class="modal-btn-confirm" id="modalConfirm" href="#">Excluir</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('deleteModal');
+        const modalName = document.getElementById('modalName');
+        const modalConfirm = document.getElementById('modalConfirm');
+        const modalCancel = document.getElementById('modalCancel');
+
+        function openDeleteModal(url, name) {
+            modalName.textContent = '"' + name + '"';
+            modalConfirm.href = url;
+            modal.classList.add('modal-visible');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeDeleteModal() {
+            modal.classList.remove('modal-visible');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        modalCancel.addEventListener('click', closeDeleteModal);
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) closeDeleteModal();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeDeleteModal();
+        });
+    </script>
+</body>
+</html>

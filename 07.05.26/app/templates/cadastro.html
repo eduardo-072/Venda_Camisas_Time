@@ -1,0 +1,27 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block titulo %}Cadastro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}?v=3">
+{% endblock %}
+{% block conteudo %}
+<div class="cadastro-min">
+  <div class="cadastro-min-card">
+    <div class="cadastro-logo">⚽</div>
+    <h1>Criar conta</h1>
+    <p class="cadastro-sub">Rápido, gratuito e sem complicação</p>
+
+    <form action="{% url 'cadastro' %}" method="post" novalidate>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Continuar</button>
+    </form>
+
+    <div class="cadastro-foot">
+      Já tem conta? <a href="{% url 'login' %}">Entrar</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

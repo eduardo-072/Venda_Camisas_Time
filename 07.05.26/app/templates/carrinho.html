@@ -1,0 +1,44 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/carrinho.css' %}">{% endblock %}
+
+{% block conteudo %}
+<div class="cart-page">
+  <h1>Seu Carrinho</h1>
+
+  {% if messages %}
+    {% for m in messages %}<div class="alert-success">{{ m }}</div>{% endfor %}
+  {% endif %}
+
+  {% if itens %}
+  <div class="cart-list">
+    {% for item in itens %}
+    <div class="cart-item">
+      <img src="{{ item.produto.imagem.url }}" alt="">
+      <div class="info">
+        <h3>{{ item.produto.nome }}</h3>
+        <p>R$ {{ item.produto.preco }}</p>
+      </div>
+      <div class="qtd">
+        <a href="{% url 'atualizar_qtd' item.produto.id 'menos' %}">−</a>
+        <span>{{ item.qtd }}</span>
+        <a href="{% url 'atualizar_qtd' item.produto.id 'mais' %}">+</a>
+      </div>
+      <div class="subtotal">R$ {{ item.subtotal }}</div>
+      <a href="{% url 'remover_item' item.produto.id %}" class="remover">×</a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="cart-footer">
+    <div class="total">Total: <strong>R$ {{ total }}</strong></div>
+    <a href="{% url 'finalizar_compra' %}" class="btn-finalizar">Finalizar Compra</a>
+  </div>
+  {% else %}
+    <div class="cart-empty">
+      <p>Seu carrinho está vazio</p>
+      <a href="{% url 'loja' %}">Ver camisas</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

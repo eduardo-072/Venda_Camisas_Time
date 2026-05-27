@@ -1,0 +1,17 @@
+{% extends 'template.html' %}
+
+{% block titulo %}Editar Usuário{% endblock %}
+
+{% block conteudo %}
+
+<h1>Editar Perfil</h1>
+
+<br>
+
+<form action="{% url 'editarusuario' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Salvar">
+</form>
+
+{% endblock %}

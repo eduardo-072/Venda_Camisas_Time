@@ -1,0 +1,27 @@
+{% extends 'template.html' %}
+{% load static %}
+
+{% block titulo %}Adicionar Contato{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/addcontato.css' %}?v=1">
+{% endblock %}
+
+{% block conteudo %}
+<div class="addcontato-page">
+  <div class="addcontato-card">
+    <a href="{% url 'contato' %}" class="back-link">Voltar para contatos</a>
+    
+    <div class="addcontato-header">
+      <h1>Adicionar Contato</h1>
+      <p>Preencha os dados abaixo para salvar</p>
+    </div>
+
+    <form action="{% url 'addcontato' %}" method="post" novalidate>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-salvar">Adicionar Contato</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

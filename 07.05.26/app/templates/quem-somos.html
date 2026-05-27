@@ -1,0 +1,39 @@
+{% extends 'template.html' %}
+
+{% block titulo %}Quem Somos{% endblock %}
+
+{% block conteudo %}
+
+<section class="qs-about">
+    <div class="section-content">
+        <span class="section-label">Nossa História</span>
+        <h2>Uma empresa construída com propósito e estilo</h2>
+        <p>Somos uma empresa comprometida com a excelência e o estilo, queromos que nossos clientes tenham uma experiência única e marcante.</p>
+    </div>
+</section>
+
+{% if usuarios %}
+<section class="qs-team">
+    <span class="section-label">Time</span>
+    <h2>Conheça quem faz acontecer</h2>
+    <p class="team-subtitle">Pessoas que fizeram esse site acontecer</p>
+    <div class="team-grid">
+        {% for u in usuarios %}
+        <div class="team-card">
+            <div class="team-avatar">
+                <span class="avatar-initials">{{ u.username|slice:":2"|upper }}</span>
+            </div>
+            <h3 class="team-name">{{ u.username }}</h3>
+            {% if u.email %}
+                <p class="team-email">{{ u.email }}</p>
+            {% else %}
+                <p class="team-email">Membro da equipe</p>
+            {% endif %}
+            <span class="team-badge">{% if u.is_superuser %}Admin{% elif u.is_staff %}Staff{% else %}Colaborador{% endif %}</span>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
