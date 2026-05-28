@@ -9,10 +9,6 @@
     <h1>Carrinho</h1>
   </header>
 
-  {% if messages %}
-    {% for m in messages %}<div class="alert-success">{{ m }}</div>{% endfor %}
-  {% endif %}
-
   {% if itens %}
   <div class="cart-list">
     {% for item in itens %}

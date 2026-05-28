@@ -80,14 +80,17 @@ header nav.nav-container {
   display: contents; /* Faz com que as divs internas ocupem a grid do header */
 }
 
-.nav-center {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  grid-column: 2;
+.nav-center a{
+  position: relative;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
 }
 
 .nav-right a {
+  text-align: right;
   position: relative;
   color: var(--text-secondary);
   text-decoration: none;
@@ -114,6 +117,23 @@ header nav.nav-container {
   transition: width 0.3s ease;
   border-radius: 10px;
 }
+
+.nav-center a::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--text-primary);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.nav-center a:hover::after {
+  width: calc(100% - 20px);
+}
+
 
 .nav-right a:hover::after {
   width: calc(100% - 20px);
@@ -365,19 +385,27 @@ button:active {
 }
 
 /* ─── CARDS / CONTAINER ─── */
-.card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 24px;
-  transition: var(--transition);
+.card-produto, .home-card-class {
+    background: var(--bg-secondary); /* Use sua variável de cor */
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
+.card-produto:hover {
+    transform: translateY(-5px);
 }
 
+.card-produto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
 /* ─── FORMS ─── */
 form {
   background: var(--bg-secondary);
@@ -931,6 +959,11 @@ main > a:hover {
   gap: 20px;
 }
 
+.loja-grid hr{
+  border: 1px solid #363535 ;
+  width: 100% !important;
+}
+
 .product-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
@@ -1023,6 +1056,8 @@ main > a:hover {
 }
 
 .btn-comprar {
+  text-align: center;
+  width: 60%;
   background: var(--accent);
   color: #fff;
   border: none;
@@ -1036,6 +1071,7 @@ main > a:hover {
 }
 
 .btn-comprar:hover {
+  color: #fff;
   background: var(--accent-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(10, 132, 255, 0.3);
@@ -1429,4 +1465,33 @@ main > a:hover {
 
 .logout-form .logout-btn:hover {
   text-decoration: underline;
+}
+
+/* mensagem de erro */
+
+/* Estilos para as mensagens de aviso */
+.messages-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.alert {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.alert-success {
+    background-color: rgba(48, 209, 88, 0.2); /* Verde suave */
+    color: var(--accent-green);
+}
+
+.alert-warning, .alert-error {
+    background-color: rgba(255, 69, 58, 0.2); /* Vermelho suave */
+    color: var(--accent-red);
 }

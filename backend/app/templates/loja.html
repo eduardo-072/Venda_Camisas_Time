@@ -5,49 +5,22 @@
 {% block conteudo %}
 
 <section class="loja-header">
-    <h1 style="color: #0a84ff;"><span>Nossos Produtos</span> </h1>
+    <h1 style="color: #0a84ff;"><span>Nossos Produtos</span></h1>
 </section>
 
-{% if produtos %}
 <div class="loja-grid">
     {% for prod in produtos %}
-    <div class="product-card">
-        <div class="product-img-wrap">
-            {% if prod.imagem %}
-                <img src="{{ prod.imagem.url }}" alt="{{ prod.nome }}">
-            {% else %}
-                <div class="product-img-placeholder">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
-                        <path d="m3.3 7 8.7 5 8.7-5"/>
-                        <path d="M12 22V12"/>
-                    </svg>
-                </div>
-            {% endif %}
-            <span class="product-badge">{{ prod.categoria }}</span>
+        <!-- Substitua 'product-card' pelo nome da classe que você usa na home -->
+        <div class="card-produto"> 
+            <img src="{{ prod.imagem.url }}" alt="{{ prod.nome }}">
+            <h3>{{ prod.nome }}</h3>
+            <hr>
+            <span class="product-price">R$ {{ prod.preco }}</span>
+            <a href="{% url 'add_to_cart' prod.id %}" class="btn-comprar">Comprar</a>
         </div>
-        <div class="product-info">
-            <h3 class="product-name">{{ prod.nome }}</h3><br>
-            <div class="product-footer">
-                <span class="product-price">R$ {{ prod.preco }}</span>
-                <a href="{% url 'add_to_cart' prod.id %}" class="btn-add-cart">Comprar</a>
-            </div>
-        </div>
-    </div>
+    {% empty %}
+        <p>Nenhum produto disponível.</p>
     {% endfor %}
 </div>
-{% else %}
-<div class="empty-state">
-    <span class="empty-icon">
-        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
-            <path d="M3 6h18"/>
-            <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-    </span>
-    <h2>Nenhum produto disponível</h2>
-    <p>Em breve novos produtos serão adicionados.</p>
-</div>
-{% endif %}
 
 {% endblock %}

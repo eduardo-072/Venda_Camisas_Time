@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -8,17 +8,37 @@ from django.contrib import messages
 from urllib3 import request
 from app.models import Categoria, Contato, Produto
 from app.forms import FormCategoria, FormContato, ProdutoForm, FormUsuario, FormEditarUsuario
+from django.shortcuts import render
+from django.shortcuts import redirect
+
+import requests
 
 def index(request):
-    return render(request, 'index.html')
+    produtos_destaque = Produto.objects.all()[:4]
+    return render(request, 'index.html', {'produtos': produtos_destaque})
 
 def quemSomos(request):
     usuarios = User.objects.all()[:3]
     return render(request, 'quem-somos.html', {'usuarios': usuarios})
 
 def loja(request):
-   produtos = Produto.objects.exclude(time__icontains='Palmeiras').exclude(nome__icontains='Palmeiras')
-   return render(request, 'loja.html', {'produtos': produtos})
+    produtos_db = Produto.objects.exclude(
+        time__icontains='Palmeiras'
+    ).exclude(
+        nome__icontains='Palmeiras'
+    )
+
+    try:
+        response = requests.get('https://fakestoreapi.com/products', timeout=5)
+        response.raise_for_status() # Verifica se deu erro na requisição
+        produtos_api = response.json()
+    except:
+        produtos_api = [] # Se a API falhar, não quebra o site
+
+    return render(request, 'loja.html', {
+        'produtos': produtos_db,
+        'produtos_api': produtos_api
+    })
 
 def cadastrarUsuario(request):
     formulario = FormUsuario(request.POST or None)
@@ -124,7 +144,7 @@ def addContato(request):
 @staff_member_required
 def listarProduto(request):
     _produtos = Produto.objects.all()
-    return render(request, 'produto.html', {'produtos': _produtos})
+    return render(request, 'loja.html', {'produtos': _produtos})
 
 @login_required
 @staff_member_required
@@ -211,6 +231,7 @@ def delUsuario(request, id_user):
 def _get_carrinho(request):
     return request.session.get('carrinho', {})
 
+@login_required(login_url='login')
 def add_to_cart(request, produto_id):
     carrinho = _get_carrinho(request)
     carrinho[str(produto_id)] = carrinho.get(str(produto_id), 0) + 1
@@ -218,7 +239,20 @@ def add_to_cart(request, produto_id):
     messages.success(request, "Camisa adicionada ao carrinho!")
     return redirect('carrinho')
 
+@login_required(login_url='login')
+@login_required(login_url='login')
 def carrinho_view(request):
+    carrinho = request.session.get('carrinho', {})
+    itens = []
+    total = 0
+    for pid, qtd in carrinho.items():
+        try:
+            prod = Produto.objects.get(id=pid)
+            total += (prod.preco * qtd)
+            itens.append({'produto': prod, 'qtd': qtd, 'subtotal': prod.preco * qtd})
+        except Produto.DoesNotExist:
+            continue
+    return render(request, 'carrinho.html', {'itens': itens, 'total': total})
     carrinho = _get_carrinho(request)
     itens = []
     total = 0
@@ -229,12 +263,14 @@ def carrinho_view(request):
         itens.append({'produto': prod, 'qtd': qtd, 'subtotal': subtotal})
     return render(request, 'carrinho.html', {'itens': itens, 'total': total})
 
+@login_required(login_url='login')
 def remover_item(request, produto_id):
     carrinho = _get_carrinho(request)
     carrinho.pop(str(produto_id), None)
     request.session['carrinho'] = carrinho
     return redirect('carrinho')
 
+@login_required(login_url='login')
 def atualizar_qtd(request, produto_id, acao):
     carrinho = _get_carrinho(request)
     pid = str(produto_id)
@@ -246,7 +282,8 @@ def atualizar_qtd(request, produto_id, acao):
     request.session['carrinho'] = carrinho
     return redirect('carrinho')
 
+@login_required(login_url='login')
 def finalizar_compra(request):
     request.session['carrinho'] = {}
-    messages.success(request, "✅ Pagamento realizado com sucesso! Obrigado pela compra.")
+    messages.success(request, "Obrigado pela preferência!")
     return redirect('carrinho')
