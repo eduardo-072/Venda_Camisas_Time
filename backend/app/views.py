@@ -10,7 +10,7 @@ from app.models import Categoria, Contato, Produto
 from app.forms import FormCategoria, FormContato, ProdutoForm, FormUsuario, FormEditarUsuario
 
 def index(request):
-    return render(request, 'app/index.html')
+    return render(request, 'index.html')
 
 def quemSomos(request):
     usuarios = User.objects.all()[:3]
