@@ -11,8 +11,6 @@ from app.forms import FormCategoria, FormContato, ProdutoForm, FormUsuario, Form
 from django.shortcuts import render
 from django.shortcuts import redirect
 
-import requests
-
 def index(request):
     produtos_destaque = Produto.objects.all()[:4]
     return render(request, 'index.html', {'produtos': produtos_destaque})
