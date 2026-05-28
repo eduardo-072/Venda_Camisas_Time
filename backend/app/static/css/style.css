@@ -56,15 +56,14 @@ body {
   flex-direction: column;
 }
 
-/* ─── HEADER ─── */
+/* ─── HEADER AJUSTADO ─── */
 header {
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--border);
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* Divide o header em 3 partes iguais */
   align-items: center;
-  justify-content: space-between;
   padding: 0 32px;
   height: 52px;
   position: sticky;
@@ -75,28 +74,72 @@ header {
 header h1 {
   font-size: 17px;
   font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
 }
 
-header nav {
+header nav.nav-container {
+  display: contents; /* Faz com que as divs internas ocupem a grid do header */
+}
+
+.nav-center {
   display: flex;
-  align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 16px;
+  grid-column: 2;
 }
 
-header nav a {
+.nav-right a {
+  position: relative;
   color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.nav-right a:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Linha animada */
+.nav-right a::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--text-primary);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.nav-right a:hover::after {
+  width: calc(100% - 20px);
+}
+
+/* Ajuste fino para os links dentro das novas divs */
+header nav a, 
+header nav .logout-btn {
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
   padding: 6px 12px;
   border-radius: var(--radius-sm);
   transition: var(--transition);
-  letter-spacing: -0.1px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
 }
 
-header nav a:hover {
+header a{
+  color: #fff !important;
+}
+
+header nav a:hover,
+header nav .logout-btn:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.06);
 }

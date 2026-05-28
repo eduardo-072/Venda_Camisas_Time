@@ -3,8 +3,11 @@
 {% block extra_css %}<link rel="stylesheet" href="{% static 'css/carrinho.css' %}">{% endblock %}
 
 {% block conteudo %}
-<div class="cart-page">
-  <h1>Seu Carrinho</h1>
+<div class="cart-container">
+  <header class="cart-header">
+    <a href="{% url 'loja' %}" class="btn">← Voltar para a loja</a>
+    <h1>Carrinho</h1>
+  </header>
 
   {% if messages %}
     {% for m in messages %}<div class="alert-success">{{ m }}</div>{% endfor %}
@@ -14,30 +17,31 @@
   <div class="cart-list">
     {% for item in itens %}
     <div class="cart-item">
-      <img src="{{ item.produto.imagem.url }}" alt="">
-      <div class="info">
+      <div class="item-img"><img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}"></div>
+      <div class="item-info">
         <h3>{{ item.produto.nome }}</h3>
-        <p>R$ {{ item.produto.preco }}</p>
+        <span class="item-price">R$ {{ item.produto.preco }}</span>
       </div>
-      <div class="qtd">
-        <a href="{% url 'atualizar_qtd' item.produto.id 'menos' %}">−</a>
-        <span>{{ item.qtd }}</span>
-        <a href="{% url 'atualizar_qtd' item.produto.id 'mais' %}">+</a>
+      <div class="item-qtd">
+        <a href="{% url 'atualizar_qtd' item.produto.id 'menos' %}" class="qtd-btn">−</a>
+        <span class="qtd-val">{{ item.qtd }}</span>
+        <a href="{% url 'atualizar_qtd' item.produto.id 'mais' %}" class="qtd-btn">+</a>
       </div>
-      <div class="subtotal">R$ {{ item.subtotal }}</div>
-      <a href="{% url 'remover_item' item.produto.id %}" class="remover">×</a>
+      <div class="item-subtotal">R$ {{ item.subtotal }}</div>
+      <a href="{% url 'remover_item' item.produto.id %}" class="remover">Remover</a>
     </div>
     {% endfor %}
   </div>
 
   <div class="cart-footer">
-    <div class="total">Total: <strong>R$ {{ total }}</strong></div>
-    <a href="{% url 'finalizar_compra' %}" class="btn-finalizar">Finalizar Compra</a>
+    <div class="cart-total">Total: <strong>R$ {{ total }}</strong></div>
+    <a href="{% url 'finalizar_compra' %}" class="btn-primary">Finalizar Compra</a>
   </div>
   {% else %}
     <div class="cart-empty">
-      <p>Seu carrinho está vazio</p>
-      <a href="{% url 'loja' %}">Ver camisas</a>
+      <h2>Seu carrinho está vazio</h2>
+      <p>Parece que você ainda não adicionou nenhuma camisa.</p>
+      <a href="{% url 'loja' %}" class="btn-ghost">Ver camisas</a>
     </div>
   {% endif %}
 </div>
